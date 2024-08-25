@@ -36,33 +36,34 @@ const Body = () => {
     <Shimmer />
   ) : (
     <section className="body">
-      <div className="filter">
-        <div className="search">
+      <div className="flex">
+        <div className="m-4 p-4">
           <input
             type="text"
-            className="search-box"
+            className="border border-solid border-black"
             value={searchText}
             onChange={(e) => {
               setSearchText(e.target.value);
             }}
           />
-          <button
-            onClick={() => {
-              // Filter the restaurant cards and update the ui
-              // searchText
-              filteredRestaurant = listOfRestaurants.filter((res) => {
-                return res.info.name
-                  .toLowerCase()
-                  .includes(searchText.toLocaleLowerCase());
-              });
-              setFilteredList(filteredRestaurant);
-            }}
-          >
-            Search
-          </button>
         </div>
         <button
-          className="filter-btn"
+          className="px-4 py-2 bg-green-100 m-4 rounded-lg"
+          onClick={() => {
+            // Filter the restaurant cards and update the ui
+            // searchText
+            filteredRestaurant = listOfRestaurants.filter((res) => {
+              return res.info.name
+                .toLowerCase()
+                .includes(searchText.toLocaleLowerCase());
+            });
+            setFilteredList(filteredRestaurant);
+          }}
+        >
+          Search
+        </button>
+        <button
+          className="px-4 py-2 bg-green-100 m-4 rounded-lg"
           onClick={() => {
             filteredList = listOfRestaurants.filter((res) => {
               return res.info.avgRating > 4.5;
@@ -73,7 +74,7 @@ const Body = () => {
           Top rated Restaurants
         </button>
       </div>
-      <div className="res-container">
+      <div className="flex flex-wrap">
         {filteredList.map((res) => (
           <Link key={res.info.id} to={"restaurants/" + res.info.id}>
             {" "}
