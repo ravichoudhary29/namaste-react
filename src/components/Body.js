@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard, { withOpenLabel } from "./RestaurantCard";
 import Shimmer from "./Shimmer";
 import useOnlineStatus from "../utils/useOnlineStatus";
 
@@ -9,6 +9,8 @@ const Body = () => {
   const [listOfRestaurants, setListOfRestaurants] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
   const [searchText, setSearchText] = useState("");
+
+  const RestaurantCardOpen = withOpenLabel(RestaurantCard);
 
   useEffect(() => {
     getData();
@@ -20,10 +22,10 @@ const Body = () => {
     );
     const res = await data.json();
     setListOfRestaurants(
-      res?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+      res?.data?.cards[3]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
     setFilteredList(
-      res?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+      res?.data?.cards[3]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
   };
 
@@ -55,7 +57,7 @@ const Body = () => {
             filteredRestaurant = listOfRestaurants.filter((res) => {
               return res.info.name
                 .toLowerCase()
-                .includes(searchText.toLocaleLowerCase());
+                .includes(searchText.toLowerCase());
             });
             setFilteredList(filteredRestaurant);
           }}
@@ -78,7 +80,11 @@ const Body = () => {
         {filteredList.map((res) => (
           <Link key={res.info.id} to={"restaurants/" + res.info.id}>
             {" "}
-            <RestaurantCard resData={res} />
+            {res.info.isOpen ? (
+              <RestaurantCardOpen resData={res} />
+            ) : (
+              <RestaurantCard resData={res} />
+            )}
           </Link>
         ))}
       </div>

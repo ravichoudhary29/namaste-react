@@ -11,11 +11,11 @@ class UserClass extends React.Component {
       },
     };
 
-    console.log(this.props.name, "Child Constructor");
+    // console.log(this.props.name, "Child Constructor");
   }
 
   async componentDidMount() {
-    console.log(this.props.name, "Child component did mount");
+    // console.log(this.props.name, "Child component did mount");
     // API call
     const data = await fetch("https://api.github.com/users/ravichoudhary29");
     const res = await data.json();
@@ -25,16 +25,16 @@ class UserClass extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log("Component did update.");
+    // console.log("Component did update.");
   }
 
   componentWillUnmount() {
-    console.log("Component will unmount.");
+    // console.log("Component will unmount.");
   }
 
   render() {
     const { name, location, avatar_url } = this.state.userInfo;
-    console.log(this.props.name, "Child Render");
+    // console.log(this.props.name, "Child Render");
     return (
       <div className="user-card">
         <img src={avatar_url} />
