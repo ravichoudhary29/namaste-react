@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import RestaurantCard, { withOpenLabel } from "./RestaurantCard";
 import Shimmer from "./Shimmer";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import UserContext from "../utils/UserContext";
 
 const Body = () => {
   // Local State - Super powerful variable
@@ -11,6 +12,7 @@ const Body = () => {
   const [searchText, setSearchText] = useState("");
 
   const RestaurantCardOpen = withOpenLabel(RestaurantCard);
+  const { loggedInUser, setUserName } = useContext(UserContext);
 
   useEffect(() => {
     getData();
@@ -21,11 +23,12 @@ const Body = () => {
       "https://www.swiggy.com/dapi/restaurants/list/v5?lat=23.3440997&lng=85.309562&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
     );
     const res = await data.json();
+    console.log(res?.data);
     setListOfRestaurants(
-      res?.data?.cards[3]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+      res?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
     setFilteredList(
-      res?.data?.cards[3]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+      res?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
   };
 
@@ -75,11 +78,20 @@ const Body = () => {
         >
           Top rated Restaurants
         </button>
+        <div className="m-4 p-4">
+          <label>UserName:</label>
+          <input
+            value={loggedInUser}
+            className="border border-black p-2"
+            onChange={(e) => {
+              setUserName(e.target.value);
+            }}
+          />
+        </div>
       </div>
       <div className="flex flex-wrap">
         {filteredList.map((res) => (
           <Link key={res.info.id} to={"restaurants/" + res.info.id}>
-            {" "}
             {res.info.isOpen ? (
               <RestaurantCardOpen resData={res} />
             ) : (
