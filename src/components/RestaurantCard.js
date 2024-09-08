@@ -11,7 +11,6 @@ const RestaurantCard = ({ resData }) => {
     costForTwo,
     areaName,
   } = resData?.info;
-  console.log(resData?.info);
   const { loggedInUser } = useContext(UserContext);
   return (
     <section className="m-4 p-4 w-[250px] h-auto rounded-lg bg-slate-200 hover:bg-slate-400">
